@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Samhita Chattopadhyay · Container Yard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;800&amp;family=Barlow:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#171C28}
+a{color:#E8B14E;text-decoration:none}a:hover{color:#F6CF85}
+</style>
+</head>
+<body>
+<template id="loader-tpl">
+<div style="position: fixed; inset: 0; z-index: 50; background: #171C28; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px; padding: 24px; transition: opacity 0.7s ease; opacity: {{loaderOpacity}}">
+<div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; width: min(420px, 84vw)">
+<sc-for list="{{blocks}}" as="b" hint-placeholder-count="18">
+<div style="height: 30px; border-radius: 2px; background: {{b.color}}; transition: background 0.3s ease; opacity: {{b.op}}"></div>
+</sc-for>
+</div>
+<p style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: clamp(36px, 6vw, 72px); letter-spacing: 0.04em; text-transform: uppercase; line-height: 1; text-align: center">Samhita Chattopadhyay</p>
+<p style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-size: 16px; letter-spacing: 0.24em; color: #A9B1C3">STACKING CONTAINERS · {{pct}}%</p>
+</div>
+</template>
+<div id="loader"></div>
+<script src="js/dc-lite.js"></script>
+<script>
+class Component extends DCLogic {
+  componentDidMount() {
+    var self = this;
+    var urls = ["8f2124c3c1149cadf4d3ff9abc7920fb","198de16e3b1c1375f6bfa147e46505f7","4b2f24b9e1d13e513d4a95d49db26179","72139eb998da2d86e97ba10b94bf21a0","c9707ada8bd4d9a0981bef86f6f7c85b","441604092f6f56d8ad382e9aeba20b34","643e4459f94c091522546e8b4d0c9f0f","013940f79c0d3978b8a335626cc19a14","07255336c4d107c64ae7db6c113bb5c9","1d8c69d6974d23cd1daf47c760a56c9f","25774bca1afb96a57ff09b24d10ee54f","e6f7b5f0c4c01d9bf665392df4dbe89b","91ef264214e08cc18a2b21ca993eb3a4"];
+    var total = urls.length, n = 0, start = Date.now();
+    this.setState({ total: total, loaded: 0, fading: false, hidden: false });
+    urls.forEach(function (id) {
+      var im = new Image();
+      im.onload = im.onerror = function () {
+        n++;
+        self.setState({ loaded: n });
+        if (n === total) {
+          setTimeout(function () {
+            self.setState({ fading: true });
+            setTimeout(function () { self.setState({ hidden: true }); }, 750);
+          }, Math.max(300, 1600 - (Date.now() - start)));
+        }
+      };
+      im.src = 'images/' + id + '.jpg';
+    });
+  }
+  renderVals() {
+    var s = this.state || {};
+    var total = s.total || 1;
+    var frac = (s.loaded || 0) / total;
+    var pal = ['#B5452F', '#3E7D6B', '#E8B14E', '#3E7D6B', '#B5452F', '#E8B14E'];
+    var blocks = [];
+    for (var i = 0; i < 18; i++) {
+      var row = 2 - Math.floor(i / 6);
+      var order = row * 6 + (i % 6);
+      var on = order / 18 < frac;
+      blocks.push({ color: on ? pal[(i * 5) % 6] : '#262E40', op: 1 });
+    }
+    return { showLoader: (this.props.showLoaderOnOpen ?? true) && !s.hidden, pct: Math.round(100 * frac), blocks: blocks, loaderOpacity: s.fading ? 0 : 1 };
+  }
+}
+DCLite.mount(Component, { showLoaderOnOpen: true });
+</script>
+<div style="position: relative; background: #171C28; color: #E9E4DA; font-family: Barlow, system-ui, sans-serif; min-height: 100vh">
+
+
+
+<section id="top" style="position: relative; min-height: 780px; overflow: hidden; display: flex; flex-direction: column">
+<img src="images/8f2124c3c1149cadf4d3ff9abc7920fb.jpg" alt="Stacked shipping containers at dusk with power lines" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover">
+<div style="position: absolute; inset: 0; background: linear-gradient(90deg, rgba(23,28,40,0.92) 0%, rgba(23,28,40,0.55) 45%, rgba(23,28,40,0.1) 100%)"></div>
+<header style="position: relative; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; padding: 24px clamp(20px, 4vw, 56px); font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 18px; letter-spacing: 0.1em; text-transform: uppercase">
+<a href="#top" style="color: #E9E4DA">SC · Portfolio</a>
+<nav style="display: flex; flex-wrap: wrap; gap: 28px"><a href="#work" style="color: #E9E4DA">Work</a><a href="#about" style="color: #E9E4DA">About</a><a href="#contact" style="color: #E9E4DA">Contact</a></nav>
+</header>
+<div style="position: relative; flex: 1; display: flex; align-items: center; padding: 40px clamp(20px, 4vw, 56px) 72px">
+<div style="max-width: 760px">
+<div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 15px; letter-spacing: 0.12em; text-transform: uppercase">
+<span style="background: #B5452F; color: #FFFFFF; padding: 6px 12px">Environment</span>
+<span style="background: #3E7D6B; color: #FFFFFF; padding: 6px 12px">Props</span>
+<span style="background: #E8B14E; color: #171C28; padding: 6px 12px">Procedural tools</span>
+</div>
+<h1 style="margin: 0 0 24px; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: clamp(64px, 9vw, 140px); line-height: 0.86; letter-spacing: -0.01em; text-transform: uppercase">Samhita<br>Chattopadhyay</h1>
+<p style="margin: 0 0 16px; font-size: 24px; font-weight: 600; line-height: 1.3">I build lived-in worlds and the props that fill them.</p>
+<p style="margin: 0; font-size: 17px; line-height: 1.6; color: #C9CDD6; max-width: 560px">3D Environment &amp; Prop Artist in Kortrijk, Belgium. Open for 3D jobs.</p>
+</div>
+</div>
+</section>
+
+<section style="background: #E8B14E; color: #171C28">
+<div style="max-width: 1320px; margin: 0 auto; padding: 36px clamp(20px, 4vw, 56px); display: flex; flex-wrap: wrap; gap: 24px; align-items: center; justify-content: space-between">
+<p style="margin: 0; max-width: 820px; font-size: 20px; line-height: 1.5; font-weight: 500">Warm light, worn materials and places that feel like someone just left the room. I model, texture and light environments and game-ready props in Unreal Engine, Houdini and Substance.</p>
+<a href="#contact" style="background: #171C28; color: #E8B14E; padding: 14px 22px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 18px; letter-spacing: 0.1em; text-transform: uppercase">Hire me</a>
+</div>
+</section>
+
+<main id="work" style="max-width: 1320px; margin: 0 auto; padding: 96px clamp(20px, 4vw, 56px)">
+<h2 style="margin: 0 0 40px; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 72px; line-height: 1; text-transform: uppercase">The yard</h2>
+
+<article style="display: flex; flex-wrap: wrap; background: #222A3B; margin-bottom: 32px">
+<div style="flex: 999 1 640px; min-width: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px">
+<img src="images/198de16e3b1c1375f6bfa147e46505f7.jpg" alt="The tool's input box inside the Unreal Engine editor" style="width: 100%; aspect-ratio: 16 / 9; object-fit: cover">
+<img src="images/4b2f24b9e1d13e513d4a95d49db26179.jpg" alt="Generated container stack on a turntable" style="width: 100%; aspect-ratio: 16 / 9; object-fit: cover">
+<img src="images/8f2124c3c1149cadf4d3ff9abc7920fb.jpg" alt="Container settlement at dusk" style="grid-column: span 2; width: 100%; aspect-ratio: 21 / 9; object-fit: cover">
+</div>
+<div style="flex: 1 1 320px; padding: 36px; border-top: 8px solid #B5452F; display: flex; flex-direction: column; justify-content: center">
+<p style="margin: 0 0 8px; font-family: 'Barlow Condensed', sans-serif; font-size: 16px; letter-spacing: 0.16em; color: #F08A72">SC-01 · PROCEDURAL TOOL</p>
+<h3 style="margin: 0 0 14px; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 44px; line-height: 1; text-transform: uppercase">Container Slum Tool</h3>
+<p style="margin: 0 0 8px; font-size: 14px; color: #A9B1C3">Houdini Engine · Unreal Engine</p>
+<p style="margin: 0 0 22px; font-size: 16px; line-height: 1.65; color: #D2D6DE">A Houdini tool that runs inside Unreal Engine. Drop in a simple box and it builds a stacked shipping-container settlement with walkways, railings, awnings and power lines.</p>
+<p style="margin: 0 0 6px"><a href="https://www.youtube.com/watch?v=lPIo_OLxyp4">Watch the tool in action →</a></p>
+<p style="margin: 0"><a href="https://www.artstation.com/artwork/kNzyrn">View on ArtStation →</a></p>
+</div>
+</article>
+
+<article style="display: flex; flex-wrap: wrap; background: #222A3B; margin-bottom: 32px">
+<div style="flex: 1 1 320px; padding: 36px; border-top: 8px solid #3E7D6B; display: flex; flex-direction: column; justify-content: center">
+<p style="margin: 0 0 8px; font-family: 'Barlow Condensed', sans-serif; font-size: 16px; letter-spacing: 0.16em; color: #7FC4AE">SC-02 · ENVIRONMENT</p>
+<h3 style="margin: 0 0 14px; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 44px; line-height: 1; text-transform: uppercase">Procedural Island: The Abandoned Tropics</h3>
+<p style="margin: 0 0 8px; font-size: 14px; color: #A9B1C3">Houdini · Unreal Engine</p>
+<p style="margin: 0 0 22px; font-size: 16px; line-height: 1.65; color: #D2D6DE">A tropical island built procedurally in Houdini and finished in Unreal Engine. The terrain sorts itself into cliffs, grass, dry and wet sand and bedrock, then flattens where the stilt houses and docks go and scatters driftwood along the shore.</p>
+<p style="margin: 0 0 6px"><a href="https://www.youtube.com/watch?v=IvuvwRDMLco">Watch the breakdown →</a></p>
+<p style="margin: 0"><a href="https://www.artstation.com/artwork/3En0bm">View on ArtStation →</a></p>
+</div>
+<div style="flex: 999 1 640px; min-width: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px">
+<img src="images/72139eb998da2d86e97ba10b94bf21a0.jpg" alt="Stilt houses through the trees at golden hour" style="grid-column: span 2; width: 100%; aspect-ratio: 21 / 9; object-fit: cover">
+<img src="images/c9707ada8bd4d9a0981bef86f6f7c85b.jpg" alt="Village street at sunset" style="width: 100%; aspect-ratio: 16 / 9; object-fit: cover">
+<img src="images/441604092f6f56d8ad382e9aeba20b34.jpg" alt="Houdini terrain layer breakdown" style="width: 100%; aspect-ratio: 16 / 9; object-fit: cover">
+</div>
+</article>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 32px; margin-bottom: 32px">
+<article style="background: #222A3B; display: flex; flex-direction: column">
+<img src="images/643e4459f94c091522546e8b4d0c9f0f.jpg" alt="Steampunk cannon on a dark stage" style="width: 100%; aspect-ratio: 16 / 9; object-fit: cover">
+<div style="padding: 32px; border-top: 8px solid #E8B14E; flex: 1">
+<p style="margin: 0 0 8px; font-family: 'Barlow Condensed', sans-serif; font-size: 16px; letter-spacing: 0.16em; color: #E8B14E">SC-03 · GAME-READY PROP</p>
+<h3 style="margin: 0 0 12px; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 38px; line-height: 1; text-transform: uppercase">Steampunk Cannon</h3>
+<p style="margin: 0 0 20px; font-size: 16px; line-height: 1.65; color: #D2D6DE">An original steampunk design I’d wanted to make for a long time, inspired by Victorian machinery. Modeled in Blender and textured in Substance 3D Painter and Designer, kept game-ready at 37k triangles.</p>
+<a href="https://www.artstation.com/artwork/8BqrOn">View on ArtStation →</a>
+</div>
+</article>
+<article style="background: #222A3B; display: flex; flex-direction: column">
+<img src="images/013940f79c0d3978b8a335626cc19a14.jpg" alt="Alfira's bedroom" style="width: 100%; aspect-ratio: 16 / 9; object-fit: cover">
+<div style="padding: 32px; border-top: 8px solid #B5452F; flex: 1">
+<p style="margin: 0 0 8px; font-family: 'Barlow Condensed', sans-serif; font-size: 16px; letter-spacing: 0.16em; color: #F08A72">SC-04 · ENVIRONMENT · FAN ART</p>
+<h3 style="margin: 0 0 12px; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 38px; line-height: 1; text-transform: uppercase">Alfira’s Bedroom</h3>
+<p style="margin: 0 0 20px; font-size: 16px; line-height: 1.65; color: #D2D6DE">My entry for the Baldur’s Gate 3 fan art competition, made in about five days. Every prop in the room is modeled and textured by me, then lit and rendered in Unreal Engine.</p>
+<a href="https://www.artstation.com/artwork/x3OKRW">View on ArtStation →</a>
+</div>
+</article>
+<article style="background: #222A3B; display: flex; flex-direction: column">
+<img src="images/07255336c4d107c64ae7db6c113bb5c9.jpg" alt="Vintage wooden coffee grinder" style="width: 100%; aspect-ratio: 16 / 9; object-fit: cover">
+<div style="padding: 32px; border-top: 8px solid #3E7D6B; flex: 1">
+<p style="margin: 0 0 8px; font-family: 'Barlow Condensed', sans-serif; font-size: 16px; letter-spacing: 0.16em; color: #7FC4AE">SC-05 · PROP</p>
+<h3 style="margin: 0 0 12px; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 38px; line-height: 1; text-transform: uppercase">Coffee Grinder</h3>
+<p style="margin: 0 0 20px; font-size: 16px; line-height: 1.65; color: #D2D6DE">A vintage hand-crank coffee grinder made for the Game Asset Pipeline course at DAE. Spin it around in the 3D viewer on Sketchfab.</p>
+<a href="https://sketchfab.com/3d-models/coffee-grinder-dae-gap-2024-134f2fc27db44e618a933c85966777ab">View in 3D →</a>
+</div>
+</article>
+<article style="background: #222A3B; display: flex; flex-direction: column">
+<img src="images/1d8c69d6974d23cd1daf47c760a56c9f.jpg" alt="Vintage hand-crank drill with red wheel" style="width: 100%; aspect-ratio: 16 / 9; object-fit: cover">
+<div style="padding: 32px; border-top: 8px solid #E8B14E; flex: 1">
+<p style="margin: 0 0 8px; font-family: 'Barlow Condensed', sans-serif; font-size: 16px; letter-spacing: 0.16em; color: #E8B14E">SC-06 · PROP</p>
+<h3 style="margin: 0 0 12px; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 38px; line-height: 1; text-transform: uppercase">Hand Drill</h3>
+<p style="margin: 0 0 20px; font-size: 16px; line-height: 1.65; color: #D2D6DE">A worn hand-crank drill made for the Game Asset Pipeline course at DAE, with chipped red paint, knurled steel and a polished wooden handle. Spin it around in the 3D viewer on Sketchfab.</p>
+<a href="https://sketchfab.com/3d-models/dae-drill-gap-assignment-fc9925cc67fd4580ab3b887532328e57">View in 3D →</a>
+</div>
+</article>
+</div>
+
+<article style="display: flex; flex-wrap: wrap; background: #222A3B">
+<div style="flex: 999 1 640px; min-width: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px">
+<img src="images/25774bca1afb96a57ff09b24d10ee54f.jpg" alt="RadiGuardGo!! title art" style="width: 100%; aspect-ratio: 16 / 9; object-fit: cover">
+<img src="images/e6f7b5f0c4c01d9bf665392df4dbe89b.jpg" alt="RadiGuardGo!! making-of title card" style="width: 100%; aspect-ratio: 16 / 9; object-fit: cover">
+</div>
+<div style="flex: 1 1 320px; padding: 32px; border-top: 8px solid #B5452F">
+<p style="margin: 0 0 8px; font-family: 'Barlow Condensed', sans-serif; font-size: 16px; letter-spacing: 0.16em; color: #F08A72">SC-07 · SHORT FILM · TEAM OF 5</p>
+<h3 style="margin: 0 0 12px; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 38px; line-height: 1; text-transform: uppercase">RadiGuardGo!!</h3>
+<p style="margin: 0 0 20px; font-size: 16px; line-height: 1.65; color: #D2D6DE">Graduation short film made in 12 weeks by a team of five: Samhita Chattopadhyay, Adrijana Bohinc, Carolin Roth, David Eti and Julie Voets.</p>
+<p style="margin: 0 0 6px"><a href="https://www.youtube.com/watch?v=XFRSTsVc3T0">Watch the film →</a></p>
+<p style="margin: 0"><a href="https://www.youtube.com/watch?v=7XdjVrFirzU">Making of →</a></p>
+</div>
+</article>
+</main>
+
+<section id="about" style="background: #222A3B">
+<div style="max-width: 1320px; margin: 0 auto; padding: 96px clamp(20px, 4vw, 56px); display: flex; flex-wrap: wrap; gap: 48px; align-items: flex-start">
+<img src="images/91ef264214e08cc18a2b21ca993eb3a4.jpg" alt="Portrait of Samhita Chattopadhyay" style="width: 240px; height: 240px; object-fit: cover; border-bottom: 8px solid #E8B14E">
+<div style="flex: 1 1 480px; min-width: 0">
+<h2 style="margin: 0 0 20px; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 64px; line-height: 1; text-transform: uppercase">About me</h2>
+<p style="margin: 0 0 32px; font-size: 19px; line-height: 1.7; color: #D2D6DE">I’m a 3D artist trained at Howest Digital Arts and Entertainment (DAE) in Kortrijk, Belgium. I like working on both ends of a scene: building procedural tools in Houdini that lay out whole landscapes, and then zooming in on a single prop until every scratch and rivet tells a story. Everything comes together in Unreal Engine, where I spend most of my time on lighting and mood.</p>
+<h3 style="margin: 0 0 12px; font-family: 'Barlow Condensed', sans-serif; font-size: 18px; letter-spacing: 0.16em; color: #A9B1C3">SKILLS</h3>
+<div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; font-size: 15px; font-weight: 500">
+<span style="border: 1px solid #4A5368; padding: 8px 12px">3D Modeling</span><span style="border: 1px solid #4A5368; padding: 8px 12px">Environment Design</span><span style="border: 1px solid #4A5368; padding: 8px 12px">Lighting</span><span style="border: 1px solid #4A5368; padding: 8px 12px">Procedural Tools</span><span style="border: 1px solid #4A5368; padding: 8px 12px">Texturing</span>
+</div>
+<h3 style="margin: 0 0 12px; font-family: 'Barlow Condensed', sans-serif; font-size: 18px; letter-spacing: 0.16em; color: #A9B1C3">TOOLS</h3>
+<div style="display: flex; flex-wrap: wrap; gap: 8px; font-size: 15px; font-weight: 500">
+<span style="background: #B5452F; color: #FFFFFF; padding: 8px 12px">Unreal Engine</span><span style="background: #E8B14E; color: #171C28; padding: 8px 12px">Houdini</span><span style="background: #3E7D6B; color: #FFFFFF; padding: 8px 12px">Maya</span><span style="background: #B5452F; color: #FFFFFF; padding: 8px 12px">Blender</span><span style="background: #E8B14E; color: #171C28; padding: 8px 12px">Substance 3D Painter</span><span style="background: #3E7D6B; color: #FFFFFF; padding: 8px 12px">Substance 3D Designer</span><span style="background: #B5452F; color: #FFFFFF; padding: 8px 12px">Photoshop</span>
+</div>
+</div>
+</div>
+</section>
+
+<section id="contact" style="max-width: 1320px; margin: 0 auto; padding: 96px clamp(20px, 4vw, 56px) 48px">
+<h2 style="margin: 0 0 20px; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: clamp(56px, 7vw, 112px); line-height: 0.9; text-transform: uppercase">Let’s make something together.</h2>
+<p style="margin: 0 0 36px; max-width: 560px; font-size: 18px; line-height: 1.6; color: #C9CDD6">I’m open for 3D jobs in games and real-time. Get in touch, or have a look at more of my work below.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 12px">
+<a href="mailto:samhita241@gmail.com" style="background: #E8B14E; color: #171C28; padding: 16px 24px; font-weight: 600; font-size: 16px">samhita241@gmail.com</a>
+<a href="https://www.artstation.com/samhitachattopadhyay" style="border: 1px solid #4A5368; color: #E9E4DA; padding: 16px 24px; font-size: 16px">ArtStation</a>
+<a href="https://sketchfab.com/SamhitaChattopadhyay/models" style="border: 1px solid #4A5368; color: #E9E4DA; padding: 16px 24px; font-size: 16px">Sketchfab</a>
+<a href="https://www.linkedin.com/in/samhita-chattopadhyay-44bb97336/" style="border: 1px solid #4A5368; color: #E9E4DA; padding: 16px 24px; font-size: 16px">LinkedIn</a>
+</div>
+<p style="margin: 80px 0 0; font-size: 13px; color: #8F97A8">© 2026 Samhita Chattopadhyay. All artwork by Samhita unless noted.</p>
+</section>
+</div>
+</body>
+</html>
